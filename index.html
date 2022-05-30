@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" >
+        function RegularCir() {
+            const [people, setPeople] = React.useState(0);
+            const [price, setPrice] = React.useState(0);
+            const peopleChange = (event) => {
+                setPeople(event.target.value);
+            }
+            const priceChange = (event) => {
+                setPrice(event.target.value);
+            }
+            const reset = () => {
+                setPeople(0);
+                setPrice(0);
+            }
+            return ( 
+                <div>    
+                    <div>
+                        <label htmlFor="people">인원 수</label>
+                        <input 
+                            value={people} 
+                            id="people" 
+                            placeholder="인원" 
+                            type="number"
+                            onChange={peopleChange}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="price">가격</label>
+                        <input 
+                            value={price}
+                            id="price" 
+                            placeholder="가격" 
+                            type="number" 
+                            onChange={priceChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="totalPrice">총 가격</label>
+                        <input 
+                            value={Math.round(price / people)}
+                            id="totalPrice" 
+                            placeholder="총 가격" 
+                            type="number"
+                            disabled
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                </div>
+            );
+        }
+        function FoodElement() {
+            const [price, setPrice] = React.useState(0);
+            const [people, setPeople] = React.useState(0);
+            const priceChange = (event) => {
+                setPrice(event.target.value);
+            }
+            const peopleChange = (event) => {
+                setPeople(event.target.value);
+            }
+            return (
+                <div>
+                    <div>
+                        <label htmlFor="price">음식1의 가격</label>
+                        <input 
+                            value={price}
+                            id="price" 
+                            placeholder="가격" 
+                            type="number" 
+                            onChange={priceChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="people">인원수</label>
+                        <input 
+                            value={people}
+                            id="people" 
+                            placeholder="음식인원수 입력" 
+                            type="number"
+                            onChange={peopleChange}
+                        />
+                    </div>
+                    <h5>결과{Math.round(price/people)}</h5>
+                </div>
+            )
+        }
+        const MemorizedFoodElement = React.memo(FoodElement);
+        function Food() {
+            return (    
+                <div>    
+                    <MemorizedFoodElement />
+                    <MemorizedFoodElement />
+                    <MemorizedFoodElement />
+                    <MemorizedFoodElement />
+                </div>
+            );
+        }
+        function App() {
+            const [index, setIndex] = React.useState("xx");
+            const onSelect = (event) => {
+              setIndex(event.target.value);
+            }
+            return ( 
+                <div>
+                    <h1>더치페이 계산기</h1>
+                    <select value={index} onChange={onSelect}>
+                      <option value="xx">계산기 선택</option>
+                      <option value="0">보통 계산기</option>
+                      <option value="1">음식별 더치페이</option>
+                    </select>
+                    {index === "xx" ? "계산기 선택" : null}
+                    {index === "0" ? <RegularCir /> : null}
+                    {index === "1" ? <Food /> : null}
+                </div>
+            );
+        }
+        
+        const root = document.getElementById("root");
+        ReactDOM.render(<App />, root)
+    </script>
+</html>
