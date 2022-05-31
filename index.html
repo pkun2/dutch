@@ -66,10 +66,14 @@
             const peopleChange = (event) => {
                 setPeople(event.target.value);
             }
+            const reset = () => {
+                setPrice(0);
+                setPeople(0);
+            }
             return (
                 <div>
                     <div>
-                        <label htmlFor="price">음식1의 가격</label>
+                        <label htmlFor="price">음식의 가격</label>
                         <input 
                             value={price}
                             id="price" 
@@ -89,6 +93,7 @@
                         />
                     </div>
                     <h5>결과{Math.round(price/people)}</h5>
+                    <button onClick={reset}>Reset</button>
                 </div>
             )
         }
@@ -122,7 +127,7 @@
                 </div>
             );
         }
-        
+
         const root = document.getElementById("root");
         ReactDOM.render(<App />, root)
     </script>
